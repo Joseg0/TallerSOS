@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Employers API
+  description: API with andalusian employers 
+
+paths:
+  /api/v1/employees:
+    x-router-controler: employersController
+    get:
+      description: Returns all employees
+      operationId: getEmployees
+      responses:
+        200:
+          description: Employee list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/employee'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/employees/{value}:
+    x-router-controller: employersController
+    get:
+      description: Returns a single employee by its value
+      operationId: findByvalue
+      parameters:
+        - required: true
+          name: value
+          description: value of the employee to fetch
+          in: path
+          schema:
+            type: number
+      responses:
+        200:
+          description: Employee found by value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/employee'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    employee:
+        type: object
+        required:
+          - value
+        properties:
+          genre:
+            type: string
+          live_with:
+            type: number
+          territory:
+            type: string
+          employee:
+            type: number
+          value:
+            type: number
+          year:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
